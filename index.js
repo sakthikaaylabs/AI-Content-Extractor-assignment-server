@@ -12,6 +12,29 @@ app.use(express.json());
 
 const HF_API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn";
 
+// Health check endpoint
+app.get("/", (req, res) => {
+    res.json({
+        status: "✅ Server is running!",
+        message: "AI Content Extractor API",
+        version: "1.0.0",
+        endpoints: {
+            health: "GET /",
+            extract: "POST /api/extract"
+        },
+        timestamp: new Date().toISOString()
+    });
+});
+
+// Health check endpoint (alternative)
+app.get("/health", (req, res) => {
+    res.json({
+        status: "healthy",
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString()
+    });
+});
+
 app.post("/api/extract", async (req, res) => {
     const { url } = req.body;
 
